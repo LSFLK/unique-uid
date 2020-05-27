@@ -17,7 +17,8 @@ class ExampleTest extends TestCase
     {
         $users = 'users.txt';
         $id = $this->userId::getUniqueAlphanumeric(8);
-        $file = file_exists($users) ? file_get_contents($users) : fopen($users,'w');
+        if(!file_exists($users)) fopen($users,'w');
+        $file = file_get_contents($users);
         $text =  $id . "\n";
         $users = fopen($users, 'a+');
         $this->assertEquals(true, (strpos($file, $id) == false));
