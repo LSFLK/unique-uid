@@ -8,12 +8,16 @@ use PHPUnit\Framework\TestCase;
 class ExampleTest extends TestCase
 {
 
+    public function setUp(): void
+    {
+        $this->userId = new UniqueUid();
+    }
+   
     public function testOne()
     {
         $users = 'users.txt';
-        $moeId = new UniqueUid();
-        $id = UniqueUid::getUniqueAlphanumeric(8);
-        $file = file_get_contents($users);
+        $id = $this->userId::getUniqueAlphanumeric(8);
+        $file = file_exists($users) ? file_get_contents($users) : fopen($users,'w');
         $text =  $id . "\n";
         $users = fopen($users, 'a+');
         $this->assertEquals(true, (strpos($file, $id) == false));
@@ -36,9 +40,14 @@ class ExampleTest extends TestCase
 
     public function testValid()
     {
-        $valid = UniqueUid::isValidUniqeId('3KM-7DT-MB1', 4);
-        $valid2 = UniqueUid::isValidUniqeId('YMG-RYC-XF7');
+        $valid = $this->userId::isValidUniqueId('3KM-7DT-MB1', 4);
+        $valid2 = $this->userId::isValidUniqueId('YMG-RYC-XF7');
         $this->assertEquals(false, $valid);
         $this->assertEquals(true, $valid2);
+    }
+
+    public function testValidCharacters()
+    {
+        $this->assertEquals('2346789BCDFGHJKMPQRTVWXY',$this->userId::$charSet);
     }
 }

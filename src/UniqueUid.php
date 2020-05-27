@@ -22,7 +22,7 @@ class UniqueUid
     }
 
     /**
-     * TO the the Code Point form the Charactor set
+     * TO the the Code Point form the Character set
      *
      * @param [type] $character
      * @return void
@@ -34,7 +34,7 @@ class UniqueUid
     }
 
     /**
-     * Get the Chraector set form the Code Point
+     * Get the Character set form the Code Point
      *
      * @param [type] $codePoint
      * @return void
@@ -46,7 +46,7 @@ class UniqueUid
     }
 
     /**
-     * Get the number of Valid charachtors for Check digit
+     * Get the number of Valid characters for Check digit
      *
      * @return void
      */
@@ -56,9 +56,9 @@ class UniqueUid
     }
 
     /**
-     * This fucntion will pass values to rendom generator.
+     * This function will pass values to random generator.
      * Our function has 1 digit to 25 options
-     * @input number - lenght of expected MoeUuid
+     * @input number - length of expected MoeUuid
      * @return string
      **/
     public static function getUniqueAlphanumeric($length = 9, $split = 3)
@@ -70,7 +70,7 @@ class UniqueUid
             $token .= self::$charSet[random_int(0, $max - 1)];
         }
 
-        $checkDigit = self::GenerateCheckCharactor($token);
+        $checkDigit = self::GenerateCheckCharacter($token);
         $token .= $checkDigit;
         $token  = self::format($token, $split);
         return $token;
@@ -96,18 +96,18 @@ class UniqueUid
     /**
      * Check the valid ID
      *
-     * @param [type] $moeuuid
+     * @param [type] $unique
      * @param integer $type
      * @return boolean
      */
-    public static function isValidUniqeId($token)
+    public static function isValidUniqueId($token)
     {
         $token = str_replace("-", "", $token);
 
-        if (preg_match('/[^'.self::$charSet.']/', $token)) {
+        if (preg_match("/[^".self::$charSet."]/", $token)) {
             return false;
         } else {
-            return self::ValidateCheckCharactor($token);
+            return self::ValidateCheckCharacter($token);
         }
     }
 
@@ -116,7 +116,7 @@ class UniqueUid
      * @input string
      * @return string
      **/
-    public static function GenerateCheckCharactor($checkNumber)
+    public static function GenerateCheckCharacter($checkNumber)
     {
         $length = strlen($checkNumber) - 1;
         $factor = 2;
@@ -150,7 +150,7 @@ class UniqueUid
      * @param [type] $checkNumber
      * @return void
      */
-    public static function ValidateCheckCharactor($checkNumber)
+    public static function ValidateCheckCharacter($checkNumber)
     {
         $factor = 1;
         $total_sum = 0;
