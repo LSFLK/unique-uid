@@ -5,7 +5,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/lsflk/unique-uid.svg?style=flat-square)](https://scrutinizer-ci.com/g/lsflk/unique-uid)
 [![Total Downloads](https://img.shields.io/packagist/dt/lsflk/unique-uid.svg?style=flat-square)](https://packagist.org/packages/lsflk/unique-uid)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+To generate a Unique UID with given charactor set.You can increase the size of the digits. Even thougt I adivce you to test you self before implement this packge.We have tested over continues 
 
 ## Installation
 
@@ -18,7 +18,12 @@ composer require lsflk/unique-uid
 ## Usage
 
 ``` php
-// Usage description here
+// Unique Id with 9 digits lenght and splited in to three segments
+UniqueUid::getUniqueAlphanumeric(9,3)
+
+// To check a valid ID
+UniqueUid::isValidUniqeId('YMG-RYC-XF7');
+//this will return a boolen value
 ```
 
 ### Testing
