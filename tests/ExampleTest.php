@@ -1,8 +1,8 @@
 <?php
 
-namespace Lsflk\UniqueUid\Tests;
+namespace Lsf\UniqueUid\Tests;
 
-use Lsflk\UniqueUid\UniqueUid;
+use Lsf\UniqueUid\UniqueUid;
 use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase

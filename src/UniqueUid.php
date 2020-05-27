@@ -1,6 +1,6 @@
 <?php
 
-namespace Lsflk\UniqueUid;
+namespace Lsf\UniqueUid;
 
 class UniqueUid
 {
