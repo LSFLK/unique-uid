@@ -5,10 +5,12 @@ namespace Lsf\UniqueUid;
 class UniqueUid
 {
     static $charSet;
+    static $maxCharLen;
 
     public function __construct()
     {
         self::$charSet = '2346789BCDFGHJKMPQRTVWXY';
+        self::$maxCharLen = strlen(self::$charSet);
     }
 
     /**
@@ -17,8 +19,20 @@ class UniqueUid
      * @param [type] $characters
      * @return void
      */
-    public function setCharSet($characters){
+    public function setCharSet($characters)
+    {
         self::$charSet = $characters;
+        $this->setCharLen($characters);
+    }
+
+    /**
+     * Set charset Len
+     *
+     * @param [type] $characters
+     * @return void
+     */
+    public function setCharLen($characters){
+        self::$maxCharLen = strlen($characters);
     }
 
     /**
@@ -58,20 +72,23 @@ class UniqueUid
     /**
      * This function will pass values to random generator.
      * Our function has 1 digit to 25 options
-     * @input number - length of expected MoeUuid
+     * @length number - length of expected 
+     * @split number - split range
      * @return string
      **/
     public static function getUniqueAlphanumeric($length = 9, $split = 3)
     {
         $token = "";
-        $max = self::NumberOfValidCharacters(); // edited
+
+        // adjust the check digit place
+        $length = $length - 1;
 
         for ($i = 0; $i < $length; $i++) {
-            $token .= self::$charSet[random_int(0, $max - 1)];
+            $token .= self::$charSet[random_int(0, self::$maxCharLen - 1)];
         }
 
-        $checkDigit = self::GenerateCheckCharacter($token);
-        $token .= $checkDigit;
+        $checkChar = self::GenerateCheckCharacter($token);
+        $token .= $checkChar;
         $token  = self::format($token, $split);
         return $token;
     }
@@ -102,12 +119,27 @@ class UniqueUid
      */
     public static function isValidUniqueId($token)
     {
+        // get the length of the token
+
+        //remove - form the token
         $token = str_replace("-", "", $token);
 
-        if (preg_match("/[^".self::$charSet."]/", $token)) {
+        $length = strlen($token);
+
+        // validate the character set
+        $valid = preg_match("/^[" . self::$charSet . "]/", $token);
+        if (!$valid) {
             return false;
         } else {
-            return self::ValidateCheckCharacter($token);
+            //get the check character from the token
+            $checkChar = str_split($token)[$length - 1];
+
+            // remove the check digit from the token
+            $token = substr($token,0,-1);
+
+            // get the valid check character
+            $ValidCheckChar = self::GenerateCheckCharacter($token);
+            return $checkChar == $ValidCheckChar;
         }
     }
 
