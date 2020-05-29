@@ -73,11 +73,11 @@ class UniqueUid
     /**
      * This function will pass values to random generator.
      * Our function has 1 digit to 25 options
-     * @length number - length of expected 
-     * @split number - split range
+     * @length integer - length of expected 
+     * @split integer - split range
      * @return string
      **/
-    public static function getUniqueAlphanumeric($length = 9, $split = 3)
+    public static function getUniqueAlphanumeric(int $length = 9, int $split = 3)
     {
         $token = "";
 
@@ -98,9 +98,9 @@ class UniqueUid
      * Format the ID with given split range
      *
      * @param string $token
-     * @return string
+     * @return integer
      */
-    public  static function format($token, $split)
+    public  static function format(string $token, int $split)
     {
         $partitions = str_split($token, $split);
         $length = count($partitions);
@@ -117,13 +117,12 @@ class UniqueUid
      * @param string $token
      * @return boolean
      */
-    public static function isValidUniqueId($token)
+    public static function isValidUniqueId(string $token)
     {
-        // get the length of the token
-
         //remove - form the token
         $token = str_replace("-", "", $token);
 
+        // get the length of the token
         $length = strlen($token);
 
         // validate the character set
@@ -145,12 +144,12 @@ class UniqueUid
 
     /**
      * Luhn mod N algorithm
-     * @input string
+     * @input string $token
      * @return string
      **/
-    public static function GenerateCheckCharacter($checkNumber)
+    public static function GenerateCheckCharacter(string $token)
     {
-        $length = strlen($checkNumber) - 1;
+        $length = strlen($token) - 1;
         $factor = 2;
         $total_sum = 0;
         $n = self::NumberOfValidCharacters();
@@ -158,7 +157,7 @@ class UniqueUid
         // Starting from the right and working leftwards is easier since
         // the initial "factor" will always be "2".
         for ($i = ($length); $i >= 0; --$i) {
-            $codePoint = self::codePointFromCharacter($checkNumber[$i]);
+            $codePoint = self::codePointFromCharacter($token[$i]);
             $added = $factor * $codePoint;
 
             // Alternate the "factor" that each "codePoint" is multiplied by
