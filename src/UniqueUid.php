@@ -16,7 +16,7 @@ class UniqueUid
     /**
      * set custom charset for the Unique ID
      *
-     * @param [type] $characters
+     * @param string $characters
      * @return void
      */
     public function setCharSet($characters)
@@ -28,18 +28,19 @@ class UniqueUid
     /**
      * Set charset Len
      *
-     * @param [type] $characters
+     * @param string $characters
      * @return void
      */
-    public function setCharLen($characters){
+    public function setCharLen($characters)
+    {
         self::$maxCharLen = strlen($characters);
     }
 
     /**
      * TO the the Code Point form the Character set
      *
-     * @param [type] $character
-     * @return void
+     * @param string $character
+     * @return integer
      */
     public static function CodePointFromCharacter($character)
     {
@@ -50,8 +51,8 @@ class UniqueUid
     /**
      * Get the Character set form the Code Point
      *
-     * @param [type] $codePoint
-     * @return void
+     * @param integer $codePoint
+     * @return string
      */
     public static function CharacterFromCodePoint($codePoint)
     {
@@ -96,15 +97,15 @@ class UniqueUid
     /**
      * Format the ID with given split range
      *
-     * @param [type] $token
-     * @param [type] $split
-     * @return void
+     * @param string $token
+     * @return string
      */
     public  static function format($token, $split)
     {
-        $partitions =  str_split($token, $split);
+        $partitions = str_split($token, $split);
+        $length = count($partitions);
         $newToken = '';
-        for ($i = 0; $i < count($partitions); $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $newToken .= '-' . $partitions[$i];
         }
         return substr($newToken, 1, strlen($newToken));
@@ -113,8 +114,7 @@ class UniqueUid
     /**
      * Check the valid ID
      *
-     * @param [type] $unique
-     * @param integer $type
+     * @param string $token
      * @return boolean
      */
     public static function isValidUniqueId($token)
@@ -135,7 +135,7 @@ class UniqueUid
             $checkChar = str_split($token)[$length - 1];
 
             // remove the check digit from the token
-            $token = substr($token,0,-1);
+            $token = substr($token, 0, -1);
 
             // get the valid check character
             $ValidCheckChar = self::GenerateCheckCharacter($token);
@@ -174,39 +174,5 @@ class UniqueUid
         $reminder = $total_sum % $n;
         $checkCodePoint  = ($n - $reminder) % $n;
         return  self::CharacterFromCodePoint($checkCodePoint);
-    }
-
-    /**
-     * Validate Luhn mod N algorithm
-     *
-     * @param [type] $checkNumber
-     * @return void
-     */
-    public static function ValidateCheckCharacter($checkNumber)
-    {
-        $factor = 1;
-        $total_sum = 0;
-        $n = self::NumberOfValidCharacters();
-        $length = strlen($checkNumber) - 1;
-
-        // Starting from the right and working leftwards is easier since
-        // the initial "factor" will always be "2".
-        for ($i = $length; $i >= 0; --$i) {
-            $codePoint = self::codePointFromCharacter($checkNumber[$i]);
-            $added = $factor * $codePoint;
-
-            // Alternate the "factor" that each "codePoint" is multiplied by
-            $factor = ($factor == 2) ? 1 : 2;
-
-            // Sum the digits of the "addend" as expressed in base "n"
-            $added = ($added / $n) + ($added % $n);
-            $total_sum += $added;
-        }
-
-        // Calculate the number that must be added to the "sum"
-        // to make it divisible by "n".
-        $reminder = $total_sum % $n;
-
-        return ($reminder == 0);
     }
 }

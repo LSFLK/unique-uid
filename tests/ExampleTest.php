@@ -4,6 +4,7 @@ namespace Lsf\UniqueUid\Tests;
 
 use Lsf\UniqueUid\UniqueUid;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Doubler\Generator\Node\ClassNode;
 
 class ExampleTest extends TestCase
 {
@@ -36,8 +37,18 @@ class ExampleTest extends TestCase
         $this->assertEquals(false,$valid2);
         $valid3 =$this->userId::isValidUniqueId('DTT-8JD-3Y0');
         $this->assertEquals(false,$valid3);
-        $valid4 =$this->userId::isValidUniqueId('8RY-FRX-W21');
-        $this->assertEquals(false,$valid4);
+       
+       
+    }
+
+    public function testArrayInput() {
+        try {
+            $this->throwException($this->userId::isValidUniqueId([]));
+        } catch (\Exception $ex) {
+            var_dump($ex->getMessage());
+            $this->assertEquals($ex->getMessage(), "strlen() expects parameter 1 to be string, array given");
+        }
+    
     }
 
     public function testValidCharacters()
