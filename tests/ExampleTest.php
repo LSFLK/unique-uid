@@ -29,6 +29,17 @@ class ExampleTest extends TestCase
         }
     }
 
+    public function testInvalid(){
+        $valid =$this->userId::isValidUniqueId('CYJ-DGQ-331');
+        $this->assertEquals(false,$valid);
+        $valid2 =$this->userId::isValidUniqueId('7K3-7M8-CR5');
+        $this->assertEquals(false,$valid2);
+        $valid3 =$this->userId::isValidUniqueId('DTT-8JD-3Y0');
+        $this->assertEquals(false,$valid3);
+        $valid4 =$this->userId::isValidUniqueId('8RY-FRX-W21');
+        $this->assertEquals(false,$valid4);
+    }
+
     public function testValidCharacters()
     {
         $this->assertEquals('2346789BCDFGHJKMPQRTVWXY', $this->userId::$charSet);
