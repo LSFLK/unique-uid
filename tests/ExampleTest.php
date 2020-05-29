@@ -1,8 +1,8 @@
 <?php
 
-namespace Lsflk\UniqueUid\Tests;
+namespace Lsf\UniqueUid\Tests;
 
-use Lsflk\UniqueUid\UniqueUid;
+use Lsf\UniqueUid\UniqueUid;
 use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
@@ -12,43 +12,36 @@ class ExampleTest extends TestCase
     {
         $this->userId = new UniqueUid();
     }
-   
+
     public function testOne()
     {
-        $users = 'users.txt';
-        $id = $this->userId::getUniqueAlphanumeric(8);
-        if(!file_exists($users)) fopen($users,'w');
-        $file = file_get_contents($users);
-        $text =  $id . "\n";
-        $users = fopen($users, 'a+');
-        $this->assertEquals(true, (strpos($file, $id) == false));
-        if (strpos($file, $id)) {
-            echo 'duplicated';
-        } else {
-            fwrite($users, $text);
-            //                 echo $id . ' '. "\n";
-        }
+        $id = $this->userId::getUniqueAlphanumeric();
+        $valid =$this->userId::isValidUniqueId($id);
+        $this->assertEquals(true,$valid);
     }
 
     public function testTest()
     {
-        $number = 10;
+        $number = 1000;
         while ($number >= 0) {
             $number--;
             $this->testOne();
         }
     }
 
-    public function testValid()
-    {
-        $valid = $this->userId::isValidUniqueId('3KM-7DT-MB1', 4);
-        $valid2 = $this->userId::isValidUniqueId('YMG-RYC-XF7');
-        $this->assertEquals(false, $valid);
-        $this->assertEquals(true, $valid2);
+    public function testInvalid(){
+        $valid =$this->userId::isValidUniqueId('CYJ-DGQ-331');
+        $this->assertEquals(false,$valid);
+        $valid2 =$this->userId::isValidUniqueId('7K3-7M8-CR5');
+        $this->assertEquals(false,$valid2);
+        $valid3 =$this->userId::isValidUniqueId('DTT-8JD-3Y0');
+        $this->assertEquals(false,$valid3);
+        $valid4 =$this->userId::isValidUniqueId('8RY-FRX-W21');
+        $this->assertEquals(false,$valid4);
     }
 
     public function testValidCharacters()
     {
-        $this->assertEquals('2346789BCDFGHJKMPQRTVWXY',$this->userId::$charSet);
+        $this->assertEquals('2346789BCDFGHJKMPQRTVWXY', $this->userId::$charSet);
     }
 }

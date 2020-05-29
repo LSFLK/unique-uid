@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Lsflk\\UniqueUid\\": "src"
+            "Lsf\\UniqueUid\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Lsflk\\UniqueUid\\Tests\\": "tests"
+            "Lsf\\UniqueUid\\Tests\\": "tests"
         }
     },
     "scripts": {

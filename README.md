@@ -1,4 +1,4 @@
-# Very short description of the package
+# Unique  User id generator
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lsflk/unique-uid.svg?style=flat-square)](https://packagist.org/packages/lsflk/unique-uid)
 [![Build Status](https://img.shields.io/travis/lsflk/unique-uid/master.svg?style=flat-square)](https://travis-ci.org/lsflk/unique-uid)
