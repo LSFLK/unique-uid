@@ -41,6 +41,8 @@ class ExampleTest extends TestCase
         $this->assertEquals(false,$valid4);
         $valid5 = $this->userId::isValidUniqueId('1562083974');
         $this->assertEquals(false,$valid5);
+        $valid6 = $this->userId::isValidUniqueId('A0401157841844');
+        $this->assertEquals(false,$valid6);
     }
 
     public function testArrayInput() {

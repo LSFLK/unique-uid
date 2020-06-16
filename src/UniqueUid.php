@@ -127,7 +127,9 @@ class UniqueUid
 
         // validate the character set
         $valid = preg_match("/^[" . self::$charSet . "]/", $token);
-        if (!$valid && is_numeric($token)) {
+        if (!$valid) {
+            return false;
+        }elseif(is_numeric($token)){
             return false;
         } else {
             //get the check character from the token
