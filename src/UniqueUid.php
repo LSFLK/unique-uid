@@ -126,7 +126,7 @@ class UniqueUid
         $length = strlen($token);
 
         // validate the character set
-        $valid = preg_match("/^[" . self::$charSet . "]/", $token);
+        $valid = preg_match("/^[" . self::$charSet . "]+$/", $token);
         if (!$valid) {
             return false;
         }elseif(is_numeric($token)){
