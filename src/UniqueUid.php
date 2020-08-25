@@ -117,7 +117,7 @@ class UniqueUid
      * @param string $token
      * @return boolean
      */
-    public static function isValidUniqueId(string $token)
+    public static function isValidUniqueId(string $token,$validLength = 9)
     {
         //remove - form the token
         $token = str_replace("-", "", $token);
@@ -127,7 +127,9 @@ class UniqueUid
 
         // validate the character set
         $valid = preg_match("/^[" . self::$charSet . "]+$/", $token);
-        if (!$valid) {
+        if($validLength != $length){
+            return false;
+        }elseif (!$valid) {
             return false;
         }elseif(is_numeric($token)){
             return false;

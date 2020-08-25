@@ -45,7 +45,9 @@ class ExampleTest extends TestCase
         $this->assertEquals(false,$valid6);
         $valid6 = $this->userId::isValidUniqueId('B0216157494076');
         $this->assertEquals(false,$valid6);
-        $valid7 = $this->userId::isValidUniqueId('D216157494076');
+        $valid7 = $this->userId::isValidUniqueId('45464565');
+        $this->assertEquals(false,$valid7);
+        $valid7 = $this->userId::isValidUniqueId('FCV-Y7P-YD2-M',9);
         $this->assertEquals(false,$valid7);
     }
 
