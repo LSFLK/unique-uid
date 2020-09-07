@@ -108,7 +108,7 @@ class UniqueUid
         for ($i = 0; $i < $length; $i++) {
             $newToken .= '-' . $partitions[$i];
         }
-        return ltrim(rtrim(substr($newToken, 1, strlen($newToken)),'-'));
+        return ltrim(rtrim(substr($newToken, 1, strlen($newToken)), '-'));
     }
 
     /**
@@ -117,10 +117,15 @@ class UniqueUid
      * @param string $token
      * @return boolean
      */
-    public static function isValidUniqueId(string $token,$validLength = 9,$split = 3)
+    public static function isValidUniqueId(string $token, $validLength = 9, $split = 3)
     {
         $actualLength = strlen($token);
 
+        $equalSplit = ($validLength % $split) ==  0 ? true : false;
+        
+        //calculate valid string length
+        $validActualLength =  $equalSplit ? (($validLength + ($split - 1))) : (($validLength + $split));
+       
         //remove - form the token
         $token = str_replace("-", "", $token);
 
@@ -129,16 +134,16 @@ class UniqueUid
 
         // validate the character set
         $valid = preg_match("/^[" . self::$charSet . "]+$/", $token);
-        
-        $validActualLength = ($validLength+(($validLength/$split)-1));
 
-        if($actualLength != $validActualLength){
+
+
+        if ($actualLength != $validActualLength) {
             return false;
-        }elseif($validLength != $length){
+        } elseif ($validLength != $length) {
             return false;
-        }elseif (!$valid) {
+        } elseif (!$valid) {
             return false;
-        }elseif(is_numeric($token)){
+        } elseif (is_numeric($token)) {
             return false;
         } else {
             //get the check character from the token

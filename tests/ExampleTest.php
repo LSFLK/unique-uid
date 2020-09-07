@@ -19,7 +19,11 @@ class ExampleTest extends TestCase
         $id = $this->userId::getUniqueAlphanumeric();
         $valid =$this->userId::isValidUniqueId($id);
         $this->assertEquals(true,$valid);
+        $valid =$this->userId::isValidUniqueId($id.'-');
+        $this->assertEquals(false,$valid);
+
     }
+    
 
     public function testFalseRight()
     {
