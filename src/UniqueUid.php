@@ -122,10 +122,10 @@ class UniqueUid
         $actualLength = strlen($token);
 
         $equalSplit = ($validLength % $split) ==  0 ? true : false;
-        
+
         //calculate valid string length
         $validActualLength =  $equalSplit ? (($validLength + ($split - 1))) : (($validLength + $split));
-       
+
         //remove - form the token
         $token = str_replace("-", "", $token);
 
@@ -135,16 +135,19 @@ class UniqueUid
         // validate the character set
         $valid = preg_match("/^[" . self::$charSet . "]+$/", $token);
 
-
-
+        //validate formatted length
         if ($actualLength != $validActualLength) {
             return false;
+        //validate un formatted length
         } elseif ($validLength != $length) {
             return false;
+        //validate charset
         } elseif (!$valid) {
             return false;
+        //validate 100 % numeric NSID    
         } elseif (is_numeric($token)) {
             return false;
+        //validate check digit    
         } else {
             //get the check character from the token
             $checkChar = str_split($token)[$length - 1];
