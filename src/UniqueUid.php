@@ -108,7 +108,7 @@ class UniqueUid
         for ($i = 0; $i < $length; $i++) {
             $newToken .= '-' . $partitions[$i];
         }
-        return substr($newToken, 1, strlen($newToken));
+        return ltrim(rtrim(substr($newToken, 1, strlen($newToken)),'-'));
     }
 
     /**
@@ -117,8 +117,10 @@ class UniqueUid
      * @param string $token
      * @return boolean
      */
-    public static function isValidUniqueId(string $token,$validLength = 9)
+    public static function isValidUniqueId(string $token,$validLength = 9,$split = 3)
     {
+        $actualLength = strlen($token);
+
         //remove - form the token
         $token = str_replace("-", "", $token);
 
@@ -127,7 +129,12 @@ class UniqueUid
 
         // validate the character set
         $valid = preg_match("/^[" . self::$charSet . "]+$/", $token);
-        if($validLength != $length){
+        
+        $validActualLength = ($validLength+(($validLength/$split)-1));
+
+        if($actualLength != $validActualLength){
+            return false;
+        }elseif($validLength != $length){
             return false;
         }elseif (!$valid) {
             return false;
