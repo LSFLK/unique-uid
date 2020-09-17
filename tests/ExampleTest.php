@@ -19,6 +19,24 @@ class ExampleTest extends TestCase
         $id = $this->userId::getUniqueAlphanumeric();
         $valid =$this->userId::isValidUniqueId($id);
         $this->assertEquals(true,$valid);
+        $valid =$this->userId::isValidUniqueId($id.'-');
+        $this->assertEquals(false,$valid);
+
+    }
+    
+
+    public function testFalseRight()
+    {
+        $id = $this->userId::getUniqueAlphanumeric();
+        $valid =$this->userId::isValidUniqueId($id.'-');
+        $this->assertEquals(false,$valid);
+    }
+
+    public function testFalseLeft()
+    {
+        $id = $this->userId::getUniqueAlphanumeric();
+        $valid =$this->userId::isValidUniqueId('-'.$id);
+        $this->assertEquals(false,$valid);
     }
 
     public function testTest()
@@ -27,6 +45,8 @@ class ExampleTest extends TestCase
         while ($number >= 0) {
             $number--;
             $this->testOne();
+            $this->testFalseRight();
+            $this->testFalseLeft();
         }
     }
 
@@ -47,8 +67,10 @@ class ExampleTest extends TestCase
         $this->assertEquals(false,$valid6);
         $valid7 = $this->userId::isValidUniqueId('45464565');
         $this->assertEquals(false,$valid7);
-        $valid7 = $this->userId::isValidUniqueId('FCV-Y7P-YD2-M',9);
-        $this->assertEquals(false,$valid7);
+        $valid7 = $this->userId::isValidUniqueId('P3F-VHD-FHB',9);
+        $this->assertEquals(true,$valid7);
+        $valid8 = $this->userId::isValidUniqueId('P3F-VHD-FHB-',9);
+        $this->assertEquals(false,$valid8);
     }
 
     public function testArrayInput() {

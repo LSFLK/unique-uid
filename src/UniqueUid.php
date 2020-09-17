@@ -108,7 +108,7 @@ class UniqueUid
         for ($i = 0; $i < $length; $i++) {
             $newToken .= '-' . $partitions[$i];
         }
-        return substr($newToken, 1, strlen($newToken));
+        return ltrim(rtrim(substr($newToken, 1, strlen($newToken)), '-'));
     }
 
     /**
@@ -117,8 +117,15 @@ class UniqueUid
      * @param string $token
      * @return boolean
      */
-    public static function isValidUniqueId(string $token,$validLength = 9)
+    public static function isValidUniqueId(string $token, $validLength = 9, $split = 3)
     {
+        $actualLength = strlen($token);
+
+        $equalSplit = ($validLength % $split) ==  0 ? true : false;
+
+        //calculate valid string length
+        $validActualLength =  $equalSplit ? (($validLength + ($split - 1))) : (($validLength + $split));
+
         //remove - form the token
         $token = str_replace("-", "", $token);
 
@@ -127,12 +134,20 @@ class UniqueUid
 
         // validate the character set
         $valid = preg_match("/^[" . self::$charSet . "]+$/", $token);
-        if($validLength != $length){
+
+        //validate formatted length
+        if ($actualLength != $validActualLength) {
             return false;
-        }elseif (!$valid) {
+        //validate un formatted length
+        } elseif ($validLength != $length) {
             return false;
-        }elseif(is_numeric($token)){
+        //validate charset
+        } elseif (!$valid) {
             return false;
+        //validate 100 % numeric NSID    
+        } elseif (is_numeric($token)) {
+            return false;
+        //validate check digit    
         } else {
             //get the check character from the token
             $checkChar = str_split($token)[$length - 1];
